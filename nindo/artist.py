@@ -1,15 +1,13 @@
-from abc import ABC
-
 from .channel import Channel, ChannelType
 
 __all__ = (
-    "BaseArtist",
+    "Artist",
     "DetailedArtist",
     "RankedArtist"
 )
 
 
-class BaseArtist(ABC):
+class Artist:
     __slots__ = (
         "id",
         "name",
@@ -25,7 +23,7 @@ class BaseArtist(ABC):
         self._http = http
 
 
-class DetailedArtist(BaseArtist):
+class DetailedArtist(Artist):
     __slots__ = (
         "channels",
         "genres"
@@ -57,7 +55,7 @@ class DetailedArtist(BaseArtist):
         return [c for c in self.channels if c.type == ChannelType.TWITCH]
 
 
-class RankedArtist(BaseArtist):
+class RankedArtist(Artist):
     __slots__ = (
         "user_name",
         "user_id",
