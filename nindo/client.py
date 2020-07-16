@@ -4,6 +4,10 @@ from .http import HTTPClient
 from .artist import RankedArtist
 from .util import AsyncIterator
 
+__all__ = (
+    "NindoClient",
+)
+
 
 class NindoClient:
     def __init__(self, **kwargs):
@@ -24,7 +28,7 @@ class NindoClient:
     def youtube_top_likes(self):
         return self._artist_list("/ranks/charts/youtube/rankLikes/big")
 
-    def youtube_top_follower(self):
+    def youtube_top_followers(self):
         return self._artist_list("/ranks/charts/youtube/rankSubGain/big")
 
     def youtube_top(self):
@@ -45,7 +49,7 @@ class NindoClient:
     def tiktok_top_views(self):
         return self._artist_list("/ranks/charts/tiktok/rankViews/big")
 
-    def tiktok_top_follower(self):
+    def tiktok_top_followers(self):
         return self._artist_list("/ranks/charts/tiktok/rankSubGain/big")
 
     def tiktok_top(self):
@@ -57,7 +61,7 @@ class NindoClient:
     def twitter_top_retweets(self):
         return self._artist_list("/ranks/charts/twitter/rankRetweets/big")
 
-    def twitter_top_follower(self):
+    def twitter_top_followers(self):
         return self._artist_list("/ranks/charts/twitter/rankSubGain/big")
 
     def twitter_top(self):
@@ -69,7 +73,7 @@ class NindoClient:
     def twitch_top_peak_viewer(self):
         return self._artist_list("/ranks/charts/twitch/rankPeakViewer/big")
 
-    def twitch_top_follower(self):
+    def twitch_top_followers(self):
         return self._artist_list("/ranks/charts/twitch/rankSubGain/big")
 
     def twitch_top(self):

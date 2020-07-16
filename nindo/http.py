@@ -2,6 +2,11 @@ import asyncio
 import aiohttp
 
 
+__all__ = (
+    "HTTPClient",
+)
+
+
 class HTTPClient:
     BASE_URL = "https://api.nindo.de"
 
@@ -12,8 +17,10 @@ class HTTPClient:
     async def request(self, path, method="GET", **kwargs):
         async with self.session.request(
                 method=method,
-                url=self.BASE_URL + path,
+                url=f"{self.BASE_URL}{path}",
                 **kwargs
         ) as resp:
             resp.raise_for_status()
-            return await resp.json()
+            data = await resp.json()
+            # print(data)
+            return data

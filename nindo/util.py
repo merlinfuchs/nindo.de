@@ -1,6 +1,12 @@
 import inspect
 
 
+__all__ = (
+    "maybe_coroutine",
+    "AsyncIterator"
+)
+
+
 async def maybe_coroutine(coro):
     if inspect.isawaitable(coro):
         return await coro

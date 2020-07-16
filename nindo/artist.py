@@ -1,4 +1,15 @@
-class Artist:
+from abc import ABC
+
+from .channel import Channel, ChannelType
+
+__all__ = (
+    "BaseArtist",
+    "DetailedArtist",
+    "RankedArtist"
+)
+
+
+class BaseArtist(ABC):
     __slots__ = (
         "id",
         "name",
@@ -7,26 +18,46 @@ class Artist:
     )
 
     def __init__(self, data, http):
-        self.id = data["artistID"]
-        self.name = data["name"]
+        self.id = data.get("artistID", data["id"])
+        self.name = data.get("artistName", data["name"])
         self.avatar_url = data["avatar"]
 
         self._http = http
 
 
-class DetailedArtist(Artist):
+class DetailedArtist(BaseArtist):
     __slots__ = (
-        "_channels",
+        "channels",
         "genres"
     )
 
     def __init__(self, data, http):
         super().__init__(data, http)
-        self._channels = data["_channels"]
+        self.channels = [Channel(c, http=self._http) for c in data["_channels"]]
         self.genres = data["_genres"]
 
+    @property
+    def youtube_channels(self):
+        return [c for c in self.channels if c.type == ChannelType.YOUTUBE]
 
-class RankedArtist(Artist):
+    @property
+    def instagram_channels(self):
+        return [c for c in self.channels if c.type == ChannelType.INSTAGRAM]
+
+    @property
+    def tiktok_channels(self):
+        return [c for c in self.channels if c.type == ChannelType.TIKTOK]
+
+    @property
+    def twitter_channels(self):
+        return [c for c in self.channels if c.type == ChannelType.TWITTER]
+
+    @property
+    def twitch_channels(self):
+        return [c for c in self.channels if c.type == ChannelType.TWITCH]
+
+
+class RankedArtist(BaseArtist):
     __slots__ = (
         "user_name",
         "user_id",
@@ -40,3 +71,7 @@ class RankedArtist(Artist):
         self.user_id = data["userID"]
         self.rank = data["rank"]
         self.value = data["value"]
+
+    async def get_details(self):
+        data = await self._http.request(f"/artist/{self.id}")
+        return DetailedArtist(data, http=self._http)
