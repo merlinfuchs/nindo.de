@@ -6,6 +6,13 @@ from nindo import NindoClient
 
 async def test():
     client = NindoClient()
+
+    # print("\n--- Live ---")
+    # artist = await client.get_artist("fe23cce0bcdb3d89cbfd500d91487202")
+    # channel = artist.instagram_channels[0]
+    # async for followers in channel.live():
+    #     print(followers)
+
     print("\n--- Milestones ---")
     async for milestone in client.milestones():
         print(milestone.expected_time, milestone.followers)

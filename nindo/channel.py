@@ -1,5 +1,7 @@
 from enum import Enum
 from datetime import timedelta
+import socketio
+import asyncio
 
 from .util import parse_timestamp
 
@@ -77,11 +79,22 @@ class Channel:
         raise NotImplemented
 
     async def live(self):
-        """
-        Nindo is using socketio
-        I don't get it to work :(
-        """
-        raise NotImplemented
+        sio = socketio.AsyncClient()
+
+        events = asyncio.Queue()
+
+        @sio.on(event="subscribers")
+        async def _on_stats(*args):
+            await events.put(args[-1])
+
+        await sio.connect("wss://subs.nindo.de/socket.io")
+        await sio.emit("subscribe", (self.type.value, self.id))
+        while True:
+            try:
+                yield await asyncio.wait_for(events.get(), timeout=10)
+            except Exception as e:
+                await sio.disconnect()
+                raise e
 
 
 class YouTubeDetails(Channel):
