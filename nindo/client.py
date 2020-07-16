@@ -108,7 +108,7 @@ class NindoClient:
 
                     offset += len(buffer)
 
-                yield buffer.pop(-1)
+                yield buffer.pop(0)
 
         return AsyncIterator(_to_wrap())
 
