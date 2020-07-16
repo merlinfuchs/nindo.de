@@ -6,6 +6,10 @@ from nindo import NindoClient
 
 async def test():
     client = NindoClient()
+    print("\n--- Coupons ---")
+    async for coupon in client.coupons():
+        print(coupon.discount, coupon.code)
+
     print("\n--- Search ---")
     async for artist in client.search("unge"):
         print(artist.name)

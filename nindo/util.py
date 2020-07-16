@@ -1,9 +1,11 @@
 import inspect
+import dateutil.parser
 
 
 __all__ = (
     "maybe_coroutine",
-    "AsyncIterator"
+    "AsyncIterator",
+    "parse_timestamp"
 )
 
 
@@ -63,3 +65,10 @@ class AsyncIterator:
                 yield func(item)
 
         return AsyncIterator(_new_iterator())
+
+
+def parse_timestamp(timestamp):
+    if timestamp is not None:
+        dateutil.parser.parse(timestamp.strip("Z"))
+
+    return None

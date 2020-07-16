@@ -10,7 +10,8 @@
 - [x] Channel History
 - [ ] Channel Posts
 - [ ] Live (Websocket)
-- [ ] Coupons
+- [ ] Viral
+- [x] Coupons
 - [ ] Milestones
 
 ## Installation

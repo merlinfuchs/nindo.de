@@ -4,6 +4,7 @@ import urllib.parse
 from .http import HTTPClient
 from .artist import Artist, RankedArtist, DetailedArtist
 from .util import AsyncIterator
+from .coupon import Coupon
 
 __all__ = (
     "NindoClient",
@@ -93,7 +94,22 @@ class NindoClient:
         return self._ranked_artists("/ranks/charts/twitch/rank/big")
 
     def coupons(self):
-        pass
+        # Coupons are the only resource that is paginated
+        async def _to_wrap():
+            buffer = []
+            offset = 0
+            while True:
+                if len(buffer) == 0:
+                    data = await self._http.request(f"/coupons?offset={offset}")
+                    buffer = [Coupon(c, http=self._http) for c in data["coupons"]]
+                    if len(buffer) == 0:
+                        break
+
+                    offset += len(buffer)
+
+                yield buffer.pop(-1)
+
+        return AsyncIterator(_to_wrap())
 
     def milestones(self):
         pass

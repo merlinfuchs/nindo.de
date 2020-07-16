@@ -1,7 +1,7 @@
 from enum import Enum
-import dateutil.parser
-
 from datetime import timedelta
+
+from .util import parse_timestamp
 
 
 __all__ = (
@@ -142,7 +142,7 @@ class HistoryEntry:
 
     def __init__(self, data):
         self.followers = data["followers"] or -1
-        self.timestamp = dateutil.parser.parse(data["timestamp"].strip("Z"))
+        self.timestamp = parse_timestamp(data["timestamp"])
 
 
 class History:
