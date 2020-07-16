@@ -1,4 +1,7 @@
 from enum import Enum
+import dateutil.parser
+
+from datetime import datetime, timedelta
 
 
 class ChannelType(Enum):
@@ -50,6 +53,10 @@ class Channel:
 
         elif self.type == ChannelType.TWITCH:
             return TwitchDetails(data, self._http)
+
+    async def get_history(self):
+        data = await self._http.request(f"/channel/historic/{self.type.value}/{self.id}")
+        return History.from_data(data)
 
 
 class YouTubeDetails(Channel):
@@ -106,3 +113,61 @@ class TwitterDetails(Channel):
 
 class TwitchDetails(Channel):
     pass
+
+
+class HistoryEntry:
+    __slots__ = (
+        "followers",
+        "timestamp"
+    )
+
+    def __init__(self, data):
+        self.followers = data["followers"] or -1
+        self.timestamp = dateutil.parser.parse(data["timestamp"].strip("Z"))
+
+
+class History:
+    __slots__ = (
+        "entries"
+    )
+
+    def __init__(self, entries):
+        self.entries = entries
+
+    @classmethod
+    def from_data(cls, data):
+        return cls([HistoryEntry(e) for e in data])
+
+    def before(self, timestamp):
+        return History([
+            e
+            for e in self.entries
+            if e.timestamp < timestamp
+        ])
+
+    def after(self, timestamp):
+        return History([
+            e
+            for e in self.entries
+            if e.timestamp > timestamp
+        ])
+
+    def daily_change(self):
+        pass
+
+    def weekly_change(self):
+        pass
+
+    @property
+    def total_change(self):
+        if len(self.entries) > 1:
+            return self.entries[-1].followers - self.entries[0].followers
+
+        return 0
+
+    @property
+    def time_span(self):
+        if len(self.entries) > 1:
+            return self.entries[-1].timestamp - self.entries[0].timestamp
+
+        return timedelta()

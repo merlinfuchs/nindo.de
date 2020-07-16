@@ -21,6 +21,4 @@ class HTTPClient:
                 **kwargs
         ) as resp:
             resp.raise_for_status()
-            data = await resp.json()
-            # print(data)
-            return data
+            return await resp.json()

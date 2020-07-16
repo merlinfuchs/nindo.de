@@ -1,4 +1,5 @@
 import asyncio
+from datetime import datetime
 
 from nindo import NindoClient
 
@@ -21,8 +22,12 @@ async def test():
         details = await artist.get_details()
         print("Channels:", len(details.instagram_channels))
 
-        channel = await details.instagram_channels[0].get_details()
-        print("Average Comments:", channel.average_comments)
+        channel = details.instagram_channels[0]
+        channel_details = await channel.get_details()
+        print("Average Comments:", channel_details.average_comments)
+
+        channel_history = await channel.get_history()
+        print("History Change:", channel_history.before(datetime.utcnow()).total_change)
 
     print("\n--- TikTok ---")
     async for artist in client.tiktok_top():
