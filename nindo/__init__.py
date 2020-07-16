@@ -1,3 +1,6 @@
+from .client import NindoClient
+
+
 __title__ = "nindo"
 __version__ = "0.0.1-pre"
 __author__ = "Merlin Fuchs"
