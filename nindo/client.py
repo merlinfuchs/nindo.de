@@ -2,7 +2,7 @@ import asyncio
 import urllib.parse
 
 from .http import HTTPClient
-from .artist import Artist, RankedArtist
+from .artist import Artist, RankedArtist, DetailedArtist
 from .util import AsyncIterator
 
 __all__ = (
@@ -14,6 +14,10 @@ class NindoClient:
     def __init__(self, **kwargs):
         self.loop = kwargs.get("loop", asyncio.get_event_loop())
         self._http = HTTPClient(**kwargs)
+
+    async def get_artist(self, artist_id):
+        data = await self._http.request(f"/artist/{artist_id}")
+        return DetailedArtist(data, http=self._http)
 
     def search(self, term):
         async def _to_wrap():
@@ -87,3 +91,12 @@ class NindoClient:
 
     def twitch_top(self):
         return self._ranked_artists("/ranks/charts/twitch/rank/big")
+
+    def coupons(self):
+        pass
+
+    def milestones(self):
+        pass
+
+    def past_milestones(self):
+        pass

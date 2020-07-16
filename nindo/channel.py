@@ -74,6 +74,9 @@ class Channel:
     async def get_posts(self):
         pass
 
+    async def live(self):
+        pass
+
 
 class YouTubeDetails(Channel):
     pass
