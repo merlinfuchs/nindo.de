@@ -1,4 +1,8 @@
-from .client import NindoClient
+from .client import *
+from .artist import *
+from .channel import *
+from .http import *
+from .util import *
 
 
 __title__ = "nindo"

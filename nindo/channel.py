@@ -1,7 +1,20 @@
 from enum import Enum
 import dateutil.parser
 
-from datetime import datetime, timedelta
+from datetime import timedelta
+
+
+__all__ = (
+    "ChannelType",
+    "Channel",
+    "YouTubeDetails",
+    "TikTokDetails",
+    "InstagramDetails",
+    "TwitterDetails",
+    "TwitchDetails",
+    "History",
+    "HistoryEntry"
+)
 
 
 class ChannelType(Enum):
@@ -57,6 +70,9 @@ class Channel:
     async def get_history(self):
         data = await self._http.request(f"/channel/historic/{self.type.value}/{self.id}")
         return History.from_data(data)
+
+    async def get_posts(self):
+        pass
 
 
 class YouTubeDetails(Channel):
