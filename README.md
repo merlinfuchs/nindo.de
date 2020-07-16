@@ -1,5 +1,8 @@
 # Python nindo.de wrapper
 
+Some parts of the internal Nindo-Api are pretty inconsistent (For example some properties are snake- and some are camel-case (╯°□°)╯︵ ┻━┻).  
+That's why some of the constructors are pretty messy ...
+
 ## Features
 
 - [x] Artist Retrieval
@@ -9,10 +12,10 @@
 - [ ] Channel Details
 - [x] Channel History
 - [ ] Channel Posts
-- [ ] Live (Websocket)
+- [ ] Live Websocket (Help Needed)
 - [ ] Viral
 - [x] Coupons
-- [ ] Milestones
+- [x] Milestones
 
 ## Installation
 

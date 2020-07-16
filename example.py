@@ -6,6 +6,10 @@ from nindo import NindoClient
 
 async def test():
     client = NindoClient()
+    print("\n--- Milestones ---")
+    async for milestone in client.milestones():
+        print(milestone.expected_time, milestone.followers)
+
     print("\n--- Coupons ---")
     async for coupon in client.coupons():
         print(coupon.discount, coupon.code)

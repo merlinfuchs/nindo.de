@@ -69,6 +69,6 @@ class AsyncIterator:
 
 def parse_timestamp(timestamp):
     if timestamp is not None:
-        dateutil.parser.parse(timestamp.strip("Z"))
+        return dateutil.parser.parse(timestamp.strip("Z"))
 
     return None

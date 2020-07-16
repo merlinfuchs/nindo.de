@@ -28,6 +28,7 @@ class ChannelType(Enum):
 class Channel:
     __slots__ = (
         "id",
+        "artist_id",
         "name",
         "avatar_url",
         "type",
@@ -40,11 +41,12 @@ class Channel:
 
     def __init__(self, data, http):
         self.id = data["id"]
-        self.name = data["name"]
+        self.name = data.get("name")
+        self.artist_id = data.get("artistID", data.get("artist_id"))
         self.avatar_url = data["avatar"]
         self.type = ChannelType(data["platform"])
-        self.deleted = data["isDeleted"]
-        self.chart_placed = data["isChartPlaced"]
+        self.deleted = bool(data.get("isDeleted"))
+        self.chart_placed = bool(data.get("isChartPlaced"))
         self.rank = data.get("rank")
         self.subscribers = data.get("subscribers")
 
@@ -72,10 +74,14 @@ class Channel:
         return History.from_data(data)
 
     async def get_posts(self):
-        pass
+        raise NotImplemented
 
     async def live(self):
-        pass
+        """
+        Nindo is using socketio
+        I don't get it to work :(
+        """
+        raise NotImplemented
 
 
 class YouTubeDetails(Channel):

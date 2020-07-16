@@ -5,6 +5,7 @@ from .http import HTTPClient
 from .artist import Artist, RankedArtist, DetailedArtist
 from .util import AsyncIterator
 from .coupon import Coupon
+from .milestone import Milestone
 
 __all__ = (
     "NindoClient",
@@ -112,7 +113,17 @@ class NindoClient:
         return AsyncIterator(_to_wrap())
 
     def milestones(self):
-        pass
+        async def _to_wrap():
+            data = await self._http.request("/ranks/milestones")
+            for milestone in data:
+                yield Milestone(milestone, http=self._http)
+
+        return AsyncIterator(_to_wrap())
 
     def past_milestones(self):
-        pass
+        async def _to_wrap():
+            data = await self._http.request("/ranks/pastMilestones")
+            for milestone in data:
+                yield Milestone(milestone, http=self._http)
+
+        return AsyncIterator(_to_wrap())
