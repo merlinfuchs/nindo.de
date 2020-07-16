@@ -9,7 +9,7 @@ with open(ROOT / "README.md", "r") as f:
     long_description = f.read()
 
 
-with open(ROOT / "discouple" / "__init__.py", encoding="utf-8") as f:
+with open(ROOT / "nindo" / "__init__.py", encoding="utf-8") as f:
     match = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE)
     if match is None:
         raise RuntimeError("Could not parse version.")
