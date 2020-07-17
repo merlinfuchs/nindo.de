@@ -1,7 +1,9 @@
 # Python nindo.de wrapper
 
 Some parts of the internal Nindo-Api are pretty inconsistent (For example some properties are snake- and some are camel-case (╯°□°)╯︵ ┻━┻).  
-That's why some of the constructors are pretty messy ...
+That's why some of the constructors are pretty messy ...  
+  
+This library is a product of reverse engineering and highly untested. Please create an issue if you encounter a bug.
 
 ## Features
 
@@ -11,7 +13,7 @@ That's why some of the constructors are pretty messy ...
 - [x] Artist Details
 - [ ] Channel Details
 - [x] Channel History
-- [ ] Channel Posts
+- [x] Channel Posts
 - [x] Live Websocket
 - [x] Viral
 - [x] Coupons

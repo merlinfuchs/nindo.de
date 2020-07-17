@@ -6,7 +6,7 @@ from .artist import Artist, RankedArtist, DetailedArtist
 from .util import AsyncIterator
 from .coupon import Coupon
 from .milestone import Milestone
-from .viral import ViralPost
+from .viral import Viral
 
 __all__ = (
     "NindoClient",
@@ -133,6 +133,6 @@ class NindoClient:
         async def _to_wrap():
             data = await self._http.request("/viral")
             for viral in data:
-                yield ViralPost(viral, http=self._http)
+                yield Viral(viral, http=self._http)
 
         return AsyncIterator(_to_wrap())

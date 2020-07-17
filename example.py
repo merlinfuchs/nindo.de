@@ -42,6 +42,9 @@ async def test():
         channel_history = await channel.get_history()
         print("History Change:", channel_history.before(datetime.utcnow()).total_change)
 
+        post_count = await channel.posts().flatten()
+        print("Post Count:", len(post_count))
+
     print("\n--- TikTok ---")
     async for artist in client.tiktok_charts():
         print("\n", artist.rank, artist.name)

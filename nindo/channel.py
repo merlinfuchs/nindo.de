@@ -3,7 +3,7 @@ from datetime import timedelta
 import socketio
 import asyncio
 
-from .util import parse_timestamp
+from .util import parse_timestamp, AsyncIterator
 
 __all__ = (
     "ChannelType",
@@ -15,6 +15,7 @@ __all__ = (
     "TwitchDetails",
     "History",
     "HistoryEntry",
+    "PostAnalytic",
     "Post"
 )
 
@@ -75,8 +76,13 @@ class Channel:
         data = await self._http.request(f"/channel/historic/{self.type.value}/{self.id}")
         return History.from_data(data)
 
-    async def get_posts(self):
-        raise NotImplemented
+    def posts(self):
+        async def _to_wrap():
+            data = await self._http.request(f"/posts/{self.type.value}/{self.id}")
+            for post in data:
+                yield Post(post)
+
+        return AsyncIterator(_to_wrap())
 
     async def live(self):
         sio = socketio.AsyncClient()
@@ -218,44 +224,37 @@ class History:
 
 
 class PostAnalytic:
-    __slots__ = ()
+    __slots__ = (
+        "age",
+        "type",
+        "channel_id",
+        "id",
+        "post_id",
+        "value"
+    )
 
     def __init__(self, data):
-        pass
+        self.age = timedelta(days=data["age"])
+        self.type = data["analyticsType"]
+        self.channel_id = data["channelID"]
+        self.id = data["id"]
+        self.post_id = data["postID"]
+        self.value = data["value"]
 
 
 class Post:
     __slots__ = (
-        "fsk_18",
-        "ad",
-        "clickbait",
-        "content_checked",
-        "shitstorm",
-        "title",
-        "channel_id",
-        "artist_id",
+        "content",
+        "description",
+        "post_id",
+        "published",
         "analytics",
         "_http"
     )
 
-    def __init__(self, data, http):
-        self.fsk_18 = data["FSK18"]
-        self.ad = data["ad"]
-        self.clickbait = data["clickbait"]
-        self.content_checked = data["contentChecked"]
-        self.shitstorm = data["shitstorm"]
-        self.title = data["title"]
-
-        # I hate this so much lol
-        # The api doesn't give us the channel type, so we can't fetch it directly
-        self.channel_id = data.get("_channel", {}).get("channelID")
-        self.artist_id = data.get("_channel", {}).get("_artist", {}).get("_id")
-
+    def __init__(self, data):
+        self.content = data["content"]
+        self.description = data["description"]
+        self.post_id = data["postID"]
+        self.published = parse_timestamp(data["published"])
         self.analytics = [PostAnalytic(a) for a in data.get("_analytics", [])]
-
-        self._http = http
-
-    async def get_artist(self):
-        from .artist import DetailedArtist
-        data = await self._http.request(f"/artist/{self.artist_id}")
-        return DetailedArtist(data, http=self._http)
