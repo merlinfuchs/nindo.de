@@ -19,7 +19,7 @@ with open(ROOT / "requirements.txt", "r") as f:
     requirements = f.read().splitlines()
 
 setuptools.setup(
-    name="discouple",
+    name="nindo",
     version=VERSION,
     author="Merlin Fuchs",
     author_email="contact@merlin.gg",
