@@ -7,11 +7,11 @@ from nindo import NindoClient
 async def test():
     client = NindoClient()
 
-    # print("\n--- Live ---")
-    # artist = await client.get_artist("fe23cce0bcdb3d89cbfd500d91487202")
-    # channel = artist.instagram_channels[0]
-    # async for followers in channel.live():
-    #     print(followers)
+    print("\n--- Live ---")
+    artist = await client.get_artist("fe23cce0bcdb3d89cbfd500d91487202")
+    channel = artist.instagram_channels[0]
+    async for followers in channel.live():
+        print(followers)
 
     print("\n--- Milestones ---")
     async for milestone in client.milestones():
@@ -26,13 +26,13 @@ async def test():
         print(artist.name)
 
     print("\n--- Youtube ---")
-    async for artist in client.youtube_top():
+    async for artist in client.youtube_charts():
         print("\n", artist.rank, artist.name)
         details = await artist.get_details()
         print("Channels:", len(details.youtube_channels))
 
     print("\n--- Instagram ---")
-    async for artist in client.instagram_top():
+    async for artist in client.instagram_charts():
         print("\n", artist.rank, artist.name)
         details = await artist.get_details()
         print("Channels:", len(details.instagram_channels))
@@ -45,19 +45,19 @@ async def test():
         print("History Change:", channel_history.before(datetime.utcnow()).total_change)
 
     print("\n--- TikTok ---")
-    async for artist in client.tiktok_top():
+    async for artist in client.tiktok_charts():
         print("\n", artist.rank, artist.name)
         details = await artist.get_details()
         print("Channels:", len(details.tiktok_channels))
 
     print("\n--- Twitter ---")
-    async for artist in client.twitter_top():
+    async for artist in client.twitter_charts():
         print("\n", artist.rank, artist.name)
         details = await artist.get_details()
         print("Channels:", len(details.twitter_channels))
 
     print("\n--- Twitch ---")
-    async for artist in client.twitch_top():
+    async for artist in client.twitch_charts():
         print("\n", artist.rank, artist.name)
         details = await artist.get_details()
         print("Channels:", len(details.twitch_channels))

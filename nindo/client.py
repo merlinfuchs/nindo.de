@@ -37,61 +37,61 @@ class NindoClient:
 
         return AsyncIterator(_to_wrap())
 
-    def youtube_top_views(self):
+    def youtube_views_charts(self):
         return self._ranked_artists("/ranks/charts/youtube/rankViews/big")
 
-    def youtube_top_likes(self):
+    def youtube_likes_charts(self):
         return self._ranked_artists("/ranks/charts/youtube/rankLikes/big")
 
-    def youtube_top_followers(self):
+    def youtube_followers_charts(self):
         return self._ranked_artists("/ranks/charts/youtube/rankSubGain/big")
 
-    def youtube_top(self):
+    def youtube_charts(self):
         return self._ranked_artists("/ranks/charts/youtube/rank/big")
 
-    def instagram_top_likes(self):
+    def instagram_likes_charts(self):
         return self._ranked_artists("/ranks/charts/instagram/rankLikes/big")
 
-    def instagram_top_follower(self):
+    def instagram_followers_charts(self):
         return self._ranked_artists("/ranks/charts/instagram/rankSubGain/big")
 
-    def instagram_top(self):
+    def instagram_charts(self):
         return self._ranked_artists("/ranks/charts/instagram/rank/big")
 
-    def tiktok_top_likes(self):
+    def tiktok_likes_charts(self):
         return self._ranked_artists("/ranks/charts/tiktok/rankLikes/big")
 
-    def tiktok_top_views(self):
+    def tiktok_views_charts(self):
         return self._ranked_artists("/ranks/charts/tiktok/rankViews/big")
 
-    def tiktok_top_followers(self):
+    def tiktok_followers_charts(self):
         return self._ranked_artists("/ranks/charts/tiktok/rankSubGain/big")
 
-    def tiktok_top(self):
+    def tiktok_charts(self):
         return self._ranked_artists("/ranks/charts/tiktok/rank/big")
 
-    def twitter_top_likes(self):
+    def twitter_likes_charts(self):
         return self._ranked_artists("/ranks/charts/twitter/rankLikes/big")
 
-    def twitter_top_retweets(self):
+    def twitter_retweets_charts(self):
         return self._ranked_artists("/ranks/charts/twitter/rankRetweets/big")
 
-    def twitter_top_followers(self):
+    def twitter_followers_charts(self):
         return self._ranked_artists("/ranks/charts/twitter/rankSubGain/big")
 
-    def twitter_top(self):
+    def twitter_charts(self):
         return self._ranked_artists("/ranks/charts/twitter/rank/big")
 
-    def twitch_top_viewer(self):
+    def twitch_viewers_charts(self):
         return self._ranked_artists("/ranks/charts/twitch/rankViewer/big")
 
-    def twitch_top_peak_viewer(self):
+    def twitch_peak_viewers_charts(self):
         return self._ranked_artists("/ranks/charts/twitch/rankPeakViewer/big")
 
-    def twitch_top_followers(self):
+    def twitch_followers_charts(self):
         return self._ranked_artists("/ranks/charts/twitch/rankSubGain/big")
 
-    def twitch_top(self):
+    def twitch_charts(self):
         return self._ranked_artists("/ranks/charts/twitch/rank/big")
 
     def coupons(self):
