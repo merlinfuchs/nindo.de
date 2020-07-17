@@ -7,11 +7,9 @@ from nindo import NindoClient
 async def test():
     client = NindoClient()
 
-    print("\n--- Live ---")
-    artist = await client.get_artist("fe23cce0bcdb3d89cbfd500d91487202")
-    channel = artist.instagram_channels[0]
-    async for followers in channel.live():
-        print(followers)
+    print("\n--- Viral ---")
+    async for viral in client.viral():
+        print(viral.type, viral.post.title)
 
     print("\n--- Milestones ---")
     async for milestone in client.milestones():
@@ -61,6 +59,12 @@ async def test():
         print("\n", artist.rank, artist.name)
         details = await artist.get_details()
         print("Channels:", len(details.twitch_channels))
+
+    print("\n--- Live ---")
+    artist = await client.get_artist("fe23cce0bcdb3d89cbfd500d91487202")
+    channel = artist.instagram_channels[0]
+    async for followers in channel.live():
+        print(followers)
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(test())

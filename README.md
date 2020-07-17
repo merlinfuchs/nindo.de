@@ -13,7 +13,7 @@ That's why some of the constructors are pretty messy ...
 - [x] Channel History
 - [ ] Channel Posts
 - [x] Live Websocket
-- [ ] Viral
+- [x] Viral
 - [x] Coupons
 - [x] Milestones
 

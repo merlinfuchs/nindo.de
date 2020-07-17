@@ -5,7 +5,6 @@ import asyncio
 
 from .util import parse_timestamp
 
-
 __all__ = (
     "ChannelType",
     "Channel",
@@ -15,7 +14,8 @@ __all__ = (
     "TwitterDetails",
     "TwitchDetails",
     "History",
-    "HistoryEntry"
+    "HistoryEntry",
+    "Post"
 )
 
 
@@ -95,6 +95,12 @@ class Channel:
             except Exception as e:
                 await sio.disconnect()
                 raise e
+
+    async def get_artist(self):
+        # Reverse lookup
+        from .artist import DetailedArtist
+        data = await self._http.request(f"/artist/{self.artist_id}")
+        return DetailedArtist(data, http=self._http)
 
 
 class YouTubeDetails(Channel):
@@ -209,3 +215,47 @@ class History:
             return self.entries[-1].timestamp - self.entries[0].timestamp
 
         return timedelta()
+
+
+class PostAnalytic:
+    __slots__ = ()
+
+    def __init__(self, data):
+        pass
+
+
+class Post:
+    __slots__ = (
+        "fsk_18",
+        "ad",
+        "clickbait",
+        "content_checked",
+        "shitstorm",
+        "title",
+        "channel_id",
+        "artist_id",
+        "analytics",
+        "_http"
+    )
+
+    def __init__(self, data, http):
+        self.fsk_18 = data["FSK18"]
+        self.ad = data["ad"]
+        self.clickbait = data["clickbait"]
+        self.content_checked = data["contentChecked"]
+        self.shitstorm = data["shitstorm"]
+        self.title = data["title"]
+
+        # I hate this so much lol
+        # The api doesn't give us the channel type, so we can't fetch it directly
+        self.channel_id = data.get("_channel", {}).get("channelID")
+        self.artist_id = data.get("_channel", {}).get("_artist", {}).get("_id")
+
+        self.analytics = [PostAnalytic(a) for a in data.get("_analytics", [])]
+
+        self._http = http
+
+    async def get_artist(self):
+        from .artist import DetailedArtist
+        data = await self._http.request(f"/artist/{self.artist_id}")
+        return DetailedArtist(data, http=self._http)
